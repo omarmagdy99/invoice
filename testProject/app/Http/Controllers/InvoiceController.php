@@ -224,8 +224,12 @@ class InvoiceController extends Controller
      * @param  \App\invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(invoice $invoice)
+    public function destroy(Request $request)
     {
-        //
+        $id=$request->id;
+        $invoice=invoice::find($id)->get()->first();
+        $invoice->delete();
+        session()->flash('delete','deletet successfully');
+        return back();
     }
 }

@@ -8,7 +8,9 @@
     <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
     <!--Internal   Notify -->
-<link href="{{URL::asset('assets/plugins/notify/css/notifIt.css')}}" rel="stylesheet"/>
+    <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
+    <!--Internal   Notify -->
+    <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
 
 @endsection
 @section('page-header')
@@ -27,9 +29,7 @@
     الفواتير
 @endsection
 @section('content')
-<script>
-    not1();
-</script>
+
     <!-- row opened -->
     <div class="row row-sm">
         <div class="col-xl-12">
@@ -41,6 +41,7 @@
                     <strong> خبر جيد </strong> {{ session('add') }}
                 </div>
             @endif
+           
             @if (session('update'))
                 <div class="alert alert-success" role="alert">
                     <button aria-label="Close" class="close" data-dismiss="alert" type="button">
@@ -109,7 +110,15 @@
                                                     id="dropdownMenuButton" type="button">العمليات <i
                                                         class="fas fa-caret-down ml-1"></i></button>
                                                 <div class="dropdown-menu tx-13">
-                                                    <a class="dropdown-item" href="{{url('updateInvoice')}}/{{$ivoice->id}}">update</a>
+                                                    <a class="dropdown-item text-info"
+                                                        href="{{ url('updateInvoice') }}/{{ $ivoice->id }}"><i
+                                                            class="fas fa-pencil-ruler"></i> تعديل</a>
+
+
+                                                    <a class="modal-effect dropdown-item text-danger btnDel"
+                                                        data-effect="effect-slide-in-bottom" data-toggle="modal"
+                                                        href="#modaldemo3" data-number="{{ $ivoice->invoice_number }}"
+                                                        data-id="{{ $ivoice->id }}"><i class="fas fa-trash"></i> حذف</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -127,9 +136,42 @@
     </div>
     <!-- /row -->
     </div>
+    <!-- Modal delete -->
+    <div class="modal" id="modaldemo3">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header  ">
+                    <h6 class="modal-title text-danger">هل انت متأكد من حذف الفاتورة</h6><button aria-label="Close"
+                        class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form action="invoices/destroy" method="post" autocomplete="off">
+                    {{ method_field('delete') }}
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <input type="hidden" id="d-id" name="id">
+                            <input type="text" class="form-control " placeholder="رقم الفاتورة"
+                                aria-label="Recipient's username" aria-describedby="basic-addon2" name="invoiceNumber"
+                                id="d-invoice" disabled>
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">رقم الفاتورة</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn ripple btn-primary" type="submit">حذف</button>
+                        <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">إغلاق</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal delete-->
     <!-- Container closed -->
+
     </div>
     <!-- main-content closed -->
+
 @endsection
 @section('js')
     <!-- Internal Data tables -->
@@ -151,9 +193,32 @@
     <script src="{{ URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
     <!--Internal  Datatable js -->
     <script src="{{ URL::asset('assets/js/table-data.js') }}"></script>
-    <!--Internal  Notify js -->
-<script src="{{URL::asset('assets/plugins/notify/js/notifIt.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/notify/js/notifit-custom.js')}}"></script>
+    <!-- Internal Modal js-->
+    <script src="{{ URL::asset('assets/js/modal.js') }}"></script>
 
-   
+    <!--Internal  Notify js -->
+    <script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
+    <!--Internal  Notify js -->
+    <script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
+
+    <script>
+        $('.btnDel').on('click', function() {
+
+            $id = $(this).data('id');
+
+            $invoiceNumber = $(this).data('number');
+            $('#d-invoice').val($invoiceNumber);
+            $('#d-id').val($id);
+        });
+    </script>
+     @if (session('delete'))
+     <script>
+         notif({
+             msg: " تم الحذف بنجاح <b>: نجح</b>",
+             type: "success"
+         });
+     </script>
+ @endif
 @endsection
