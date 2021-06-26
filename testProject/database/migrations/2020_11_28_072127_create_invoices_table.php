@@ -30,8 +30,8 @@ class CreateInvoicesTable extends Migration
             $table->decimal('Total',8,2);
             $table->string('Status', 50);
             $table->integer('Value_Status');
+            $table->date('Payment_Date')->nullable();
             $table->text('note')->nullable();
-            // $table->date('payment_data')->default('CURRENT_TIMESTAMP');
             $table->softDeletes();
             $table->timestamps();
         });

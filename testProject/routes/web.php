@@ -21,8 +21,12 @@ Route::get('/login', function () {
 Route::group(['middleware' => 'auth'], function () {
     
     Route::get('/', 'HomeController@index')->name('home');
+    // start invoice
     Route::get('/updateInvoice/{id}', 'InvoiceController@show');
+    Route::get('/showStatus/{id}', 'InvoiceController@showStatus');
+    Route::post('/editStatus/{id}', 'InvoiceController@editStatus')->name('editStatus');
     Route::resource('/invoices', 'InvoiceController');
+    // end invoice
     Route::get('/section/{id}', 'InvoiceController@getProduct');
     
     Route::resource('/sections','SectionsController');

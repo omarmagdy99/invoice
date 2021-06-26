@@ -41,7 +41,7 @@
                     <strong> خبر جيد </strong> {{ session('add') }}
                 </div>
             @endif
-           
+
             @if (session('update'))
                 <div class="alert alert-success" role="alert">
                     <button aria-label="Close" class="close" data-dismiss="alert" type="button">
@@ -113,6 +113,9 @@
                                                     <a class="dropdown-item text-info"
                                                         href="{{ url('updateInvoice') }}/{{ $ivoice->id }}"><i
                                                             class="fas fa-pencil-ruler"></i> تعديل</a>
+                                                    <a class="dropdown-item text-info"
+                                                        href="{{ url('showStatus') }}/{{ $ivoice->id }}"><i
+                                                            class="fas fa-pencil-ruler"></i> تعديل حالة الدفع</a>
 
 
                                                     <a class="modal-effect dropdown-item text-danger btnDel"
@@ -213,12 +216,12 @@
             $('#d-id').val($id);
         });
     </script>
-     @if (session('delete'))
-     <script>
-         notif({
-             msg: " تم الحذف بنجاح <b>: نجح</b>",
-             type: "success"
-         });
-     </script>
- @endif
+    @if (session('delete'))
+        <script>
+            notif({
+                msg: " تم الحذف بنجاح <b>: نجح</b>",
+                type: "success"
+            });
+        </script>
+    @endif
 @endsection
