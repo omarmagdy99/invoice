@@ -172,10 +172,10 @@ return response()->file($path);
 // public function delete_file($invoice_number,$file_path){
 // invoice_attachment::where('file_name',$file_path)->delete();
 //
-$path = Storage::disk('attachment_location')
-->getDriver()
-->getAdapter()
-->applyPathPrefix($invoice_number . '/' . $file_path);
+// $path = Storage::disk('attachment_location')
+// ->getDriver()
+// ->getAdapter()
+// ->applyPathPrefix($invoice_number . '/' . $file_path);
 // return response()->delete($path);
 // }
 
